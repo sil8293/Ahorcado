@@ -2,6 +2,7 @@
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -19,7 +20,7 @@ import javax.swing.JButton;
  */
 public class VentanaAhorcado extends javax.swing.JFrame {
 
-    String palabraOculta = "CETYS";
+    String palabraOculta = eligePalabraOculta();
     //contador para saber el numero de fallos
     int numeroFallos = 0;
 
@@ -30,101 +31,94 @@ public class VentanaAhorcado extends javax.swing.JFrame {
         initComponents();
         //aqui va el codifgo que poniamos en el run de acm
         cambiaImagenAhorcao();
+
+//        eligePalabraOculta();
+        pintaPalabraGuiones();
     }
 
-    private void cambiaImagenAhorcao(){
-        String  nombreImagen="";
-        switch (numeroFallos) {
-                case 0:
-                    nombreImagen = "/ahorcado_0.png";
-                    break;
-                case 1:
-                    nombreImagen ="/ahorcado_1.png";
-                    break;
-                case 2:
-                    nombreImagen ="/ahorcado_2.png";
-                    break;
-                case 3:
-                    nombreImagen = "/ahorcado_3.png";
-                    break;
-                case 4:
-                    nombreImagen = "/ahorcado_4.png";
-                    break;
-                case 5:
-                    nombreImagen = "/ahorcado_5.png";
-                    break;
-               
-                default:
-                    nombreImagen ="/ahorcado_fin.png";
-                    break;
-                case -1:
-                    nombreImagen ="/acertasteTodo.png";
-                    break;
-            }  
-        ImageIcon a = new ImageIcon(getClass().getResource(nombreImagen));
-        Image auxiliar = a.getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT);
-        ImageIcon imageIcon=new ImageIcon(auxiliar);
-        jLabel2.setIcon(imageIcon);
-          
+    private String eligePalabraOculta() {
+        String[] listaDEPalabras = new String[10];
+        listaDEPalabras[0] = "CASA";
+        listaDEPalabras[1] = "ARMARIO";
+        listaDEPalabras[2] = "MARTILLO";
+        listaDEPalabras[3] = "INFORMATICA";
+        listaDEPalabras[4] = "MULTIPLATAFORMA";
+        listaDEPalabras[5] = "VIDAS";
+        listaDEPalabras[6] = "PANTALLA";
+        listaDEPalabras[7] = "YUXTAPUESTA";
+        listaDEPalabras[8] = "BARBUDO";
+        listaDEPalabras[9] = "APLICACIONES";
+
+        int aleatorio = new Random().nextInt(listaDEPalabras.length);
+        String palabraOculta = (listaDEPalabras[aleatorio]);
+        System.out.println(palabraOculta);
+        return palabraOculta;
+
     }
-//    @Override
-//    public void paint(Graphics g) {
-//        super.paint(g);
-//        //con esta indicamos que vasmos a dibujar en el panel
-//        g = jPanel1.getGraphics();
-//        Image miImagen = null;
-//        try {
-//            //cargamos una imagen
-//            switch (numeroFallos) {
-//                case 0:
-//                    miImagen = ImageIO.read(getClass().getResource("/ahorcado_0.png"));
-//                    break;
-//                case 1:
-//                    miImagen = ImageIO.read(getClass().getResource("/ahorcado_1.png"));
-//                    break;
-//                case 2:
-//                    miImagen = ImageIO.read(getClass().getResource("/ahorcado_2.png"));
-//                    break;
-//                case 3:
-//                    miImagen = ImageIO.read(getClass().getResource("/ahorcado_3.png"));
-//                    break;
-//                case 4:
-//                    miImagen = ImageIO.read(getClass().getResource("/ahorcado_4.png"));
-//                    break;
-//                case 5:
-//                    miImagen = ImageIO.read(getClass().getResource("/ahorcado_5.png"));
-//                    break;
-//               
-//                default:
-//                    miImagen = ImageIO.read(getClass().getResource("/ahorcado_fin.png"));
-//                    break;
-//                case -1:
-//                    miImagen = ImageIO.read(getClass().getResource("/acertasteTodo.png"));
-//                    break;
-//            }
-//        } catch (IOException ex) {
-//
-//        }
-//        //aqui dibujo en el jPanel1
-//
-//        g.drawImage(miImagen, 0, 0, jPanel1.getWidth(), jPanel1.getHeight(), null);
-//    }
+
+    private void cambiaImagenAhorcao() {
+        String nombreImagen = "";
+        switch (numeroFallos) {
+            case 0:
+                nombreImagen = "/ahorcado_0.png";
+                break;
+            case 1:
+                nombreImagen = "/ahorcado_1.png";
+                break;
+            case 2:
+                nombreImagen = "/ahorcado_2.png";
+                break;
+            case 3:
+                nombreImagen = "/ahorcado_3.png";
+                break;
+            case 4:
+                nombreImagen = "/ahorcado_4.png";
+                break;
+            case 5:
+                nombreImagen = "/ahorcado_5.png";
+
+                break;
+
+            default:
+                nombreImagen = "/ahorcado_fin.png";
+                break;
+            case -1:
+                nombreImagen = "/acertasteTodo.png";
+                break;
+        }
+        ImageIcon a = new ImageIcon(getClass().getResource(nombreImagen));
+        Image auxiliar = a.getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT);
+        ImageIcon imageIcon = new ImageIcon(auxiliar);
+        jLabel2.setIcon(imageIcon);
+
+    }
+
+    private void pintaPalabraGuiones() {
+        for (int i = 0; i < palabraOculta.length(); i++) {
+            jLabel1.setText(jLabel1.getText() + "_ ");
+        }
+
+    }
 
     private void chequeaLetra(JButton boton) {
         if (boton.isEnabled()) {
+
             String letra = boton.getText();
-            boton.setEnabled(false);;
+            boton.setEnabled(false);
 //        System.out.println(boton.getText());
             String palabraConGuiones = jLabel1.getText();
+
             if (palabraOculta.contains(letra)) {
-                for (int i = 0; i < palabraOculta.length(); i++) {
+                for (int i = 0; i < palabraOculta.length() && numeroFallos < 6; i++) {
                     if (palabraOculta.charAt(i) == letra.charAt(0)) {
                         palabraConGuiones
                                 = palabraConGuiones.substring(0, 2 * i)
                                 + letra
                                 + palabraConGuiones.substring(2 * i + 1);
+
                     }
                 }
+
                 jLabel1.setText(palabraConGuiones);
                 //compruebo si en la palabra con guiones o no
                 // si hay algun guion no hago nada porque no he adivinado todavia la partida
@@ -137,8 +131,11 @@ public class VentanaAhorcado extends javax.swing.JFrame {
 
             }
         }
+
         cambiaImagenAhorcao();
     }
+
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -184,8 +181,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("_ _ _ _ _ ");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 358, 60));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 640, 60));
 
         a.setText("A");
         a.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -193,7 +189,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 aMousePressed(evt);
             }
         });
-        getContentPane().add(a, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 401, 42, 42));
+        getContentPane().add(a, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 420, 42, 42));
 
         b.setText("B");
         b.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -201,7 +197,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 bMousePressed(evt);
             }
         });
-        getContentPane().add(b, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 401, 42, 42));
+        getContentPane().add(b, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 420, 42, 42));
 
         c.setText("C");
         c.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -209,7 +205,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 cMousePressed(evt);
             }
         });
-        getContentPane().add(c, new org.netbeans.lib.awtextra.AbsoluteConstraints(114, 401, 42, 42));
+        getContentPane().add(c, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 420, 42, 42));
 
         d.setText("D");
         d.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -217,7 +213,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 dMousePressed(evt);
             }
         });
-        getContentPane().add(d, new org.netbeans.lib.awtextra.AbsoluteConstraints(166, 401, 42, 42));
+        getContentPane().add(d, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 420, 42, 42));
 
         e.setText("E");
         e.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -225,7 +221,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 eMousePressed(evt);
             }
         });
-        getContentPane().add(e, new org.netbeans.lib.awtextra.AbsoluteConstraints(218, 401, 42, 42));
+        getContentPane().add(e, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 420, 42, 42));
 
         f.setText("F");
         f.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -233,7 +229,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 fMousePressed(evt);
             }
         });
-        getContentPane().add(f, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 401, 42, 42));
+        getContentPane().add(f, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 420, 42, 42));
 
         g.setText("G");
         g.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -241,7 +237,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 gMousePressed(evt);
             }
         });
-        getContentPane().add(g, new org.netbeans.lib.awtextra.AbsoluteConstraints(322, 401, 42, 42));
+        getContentPane().add(g, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 420, 42, 42));
 
         n.setText("N");
         n.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -249,7 +245,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 nMousePressed(evt);
             }
         });
-        getContentPane().add(n, new org.netbeans.lib.awtextra.AbsoluteConstraints(322, 454, 42, 42));
+        getContentPane().add(n, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 470, 42, 42));
 
         h.setText("H");
         h.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -257,7 +253,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 hMousePressed(evt);
             }
         });
-        getContentPane().add(h, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 454, 42, 42));
+        getContentPane().add(h, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 470, 42, 42));
 
         i.setText("I");
         i.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -265,7 +261,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 iMousePressed(evt);
             }
         });
-        getContentPane().add(i, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 454, 42, 42));
+        getContentPane().add(i, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 470, 42, 42));
 
         j.setText("J");
         j.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -273,7 +269,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 jMousePressed(evt);
             }
         });
-        getContentPane().add(j, new org.netbeans.lib.awtextra.AbsoluteConstraints(114, 454, 42, 42));
+        getContentPane().add(j, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 470, 42, 42));
 
         k.setText("K");
         k.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -281,7 +277,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 kMousePressed(evt);
             }
         });
-        getContentPane().add(k, new org.netbeans.lib.awtextra.AbsoluteConstraints(166, 454, 42, 42));
+        getContentPane().add(k, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 470, 42, 42));
 
         l.setText("L");
         l.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -289,7 +285,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 lMousePressed(evt);
             }
         });
-        getContentPane().add(l, new org.netbeans.lib.awtextra.AbsoluteConstraints(218, 454, 42, 42));
+        getContentPane().add(l, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, 42, 42));
 
         m.setText("M");
         m.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -297,7 +293,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 mMousePressed(evt);
             }
         });
-        getContentPane().add(m, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 454, 42, 42));
+        getContentPane().add(m, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 470, 42, 42));
 
         t.setText("T");
         t.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -305,7 +301,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 tMousePressed(evt);
             }
         });
-        getContentPane().add(t, new org.netbeans.lib.awtextra.AbsoluteConstraints(322, 507, 42, 42));
+        getContentPane().add(t, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 520, 42, 42));
 
         ñ.setText("Ñ");
         ñ.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -313,7 +309,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 ñMousePressed(evt);
             }
         });
-        getContentPane().add(ñ, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 507, 42, 42));
+        getContentPane().add(ñ, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 520, 42, 42));
 
         o.setText("O");
         o.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -321,7 +317,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 oMousePressed(evt);
             }
         });
-        getContentPane().add(o, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 507, 42, 42));
+        getContentPane().add(o, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 520, 42, 42));
 
         p.setText("P");
         p.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -329,7 +325,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 pMousePressed(evt);
             }
         });
-        getContentPane().add(p, new org.netbeans.lib.awtextra.AbsoluteConstraints(114, 507, 42, 42));
+        getContentPane().add(p, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 520, 42, 42));
 
         q.setText("Q");
         q.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -337,7 +333,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 qMousePressed(evt);
             }
         });
-        getContentPane().add(q, new org.netbeans.lib.awtextra.AbsoluteConstraints(166, 507, 42, 42));
+        getContentPane().add(q, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 520, 42, 42));
 
         r.setText("R");
         r.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -345,7 +341,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 rMousePressed(evt);
             }
         });
-        getContentPane().add(r, new org.netbeans.lib.awtextra.AbsoluteConstraints(218, 507, 42, 42));
+        getContentPane().add(r, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 520, 42, 42));
 
         s.setText("S");
         s.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -353,7 +349,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 sMousePressed(evt);
             }
         });
-        getContentPane().add(s, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 507, 42, 42));
+        getContentPane().add(s, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 520, 42, 42));
 
         z.setText("Z");
         z.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -361,7 +357,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 zMousePressed(evt);
             }
         });
-        getContentPane().add(z, new org.netbeans.lib.awtextra.AbsoluteConstraints(322, 555, 42, 42));
+        getContentPane().add(z, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 570, 42, 42));
 
         u.setText("U");
         u.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -369,7 +365,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 uMousePressed(evt);
             }
         });
-        getContentPane().add(u, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 555, 42, 42));
+        getContentPane().add(u, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 570, 42, 42));
 
         v.setText("V");
         v.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -377,7 +373,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 vMousePressed(evt);
             }
         });
-        getContentPane().add(v, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 555, 42, 42));
+        getContentPane().add(v, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 570, 42, 42));
 
         w.setText("W");
         w.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -385,7 +381,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 wMousePressed(evt);
             }
         });
-        getContentPane().add(w, new org.netbeans.lib.awtextra.AbsoluteConstraints(114, 555, 42, 42));
+        getContentPane().add(w, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 570, 42, 42));
 
         x.setText("X");
         x.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -393,7 +389,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 xMousePressed(evt);
             }
         });
-        getContentPane().add(x, new org.netbeans.lib.awtextra.AbsoluteConstraints(218, 555, 42, 42));
+        getContentPane().add(x, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 570, 42, 42));
 
         y.setText("Y");
         y.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -401,8 +397,8 @@ public class VentanaAhorcado extends javax.swing.JFrame {
                 yMousePressed(evt);
             }
         });
-        getContentPane().add(y, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 555, 42, 42));
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, 200, 200));
+        getContentPane().add(y, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 570, 42, 42));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, 300, 300));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
